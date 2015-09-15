@@ -1,0 +1,34 @@
+{
+  "name": "y",
+  "version": "0.0.1",
+  "description": "The loggin module for Leisurelink",
+  "main": "index.js",
+  "scripts": {
+    "lint": "esw --quiet",
+    "test": "mocha test --recursive tests/**/*-tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeisureLink/skinny-loggins.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "Colten Rouska",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeisureLink/skinny-loggins/issues"
+  },
+  "homepage": "https://github.com/LeisureLink/skinny-loggins#readme",
+  "dependencies": {
+    "winston": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "eslint": "^1.4.3",
+    "eslint-watch": "^2.0.0",
+    "istanbul": "^0.3.20",
+    "mocha": "^2.3.2",
+    "sinon": "^1.16.1"
+  }
+}

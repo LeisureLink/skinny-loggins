@@ -1,2 +1,3 @@
-# skinny-loggins
-The logger
+# Skinny Loggins
+
+The logger of your dreams.
