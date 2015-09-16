@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "0.12"
+os:
+  - linux
+script:
+  - npm run ci
+deploy:
+  provider: npm
+  email: leisurelink
+  api_key:
+    secure: DcV2kmrKrFye0dopdDOqzqKJ4ZilWB3sMxWcg+rafkL5XhQwI5eX6KlKfT8P07f6XctJ030D7jqeFjKX6u8upeY/BKW32y0eVmnBL6H2vGtDfUzI2IIH09Z9+Fj4WgZYyVOzv9PUfGsPSzIf5jeWntaFdtTOqD0nly7vnBJ4jF5LEegCIMZvrGHZx8FLn46+uhnzrLwth0f7oPfSTjU0Ny7mjHs37IVg86OK8XB1sh0fdxxNcRbKYYUkx6GXbePguXNSn60fGRMs6SgP+M3PZCsVdTZWWowGl+NjGW8Osjg610TkagNeNVY2L5ViDqB80UVU4pocPkHG/12yEPHLFrlwuO74qndqMWdKg4dXQobKalZi22XO5bVo7w/0Eyrid6bxR/+oZHt1HI7ALGzX/FjnuIEIISmMdkE15OJCxMy+kz+dGQwVApC31i7Sebn3+qdnFo/wgRo8Za6CpA8nSIVeyc/ORUQgtVziph9aMYkw9GQTZ5yP+wYS6MTc7MBbwSCmywVKunF0nC5rz18+uSyNVtaSQJD5lInxSow0880jTpleQ0s/eZPJCDdxnJPzwS6PQFh1oK3EcIfVZf1XMxAg3qewgSCHXYv2shPHEfH7dryVYofflE8CgaDHTWNDD69769CtAuAAeKpFg+rCH60UmL4XM0TBuKkkH0p5d50=
+  on:
+    tags: true
+    repo: LeisureLink/skinny-loggins
