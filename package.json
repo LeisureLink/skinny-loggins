@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "esw --quiet",
-    "test": "mocha test --recursive tests/**/*-tests.js"
+    "test": "mocha tests/**/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/LeisureLink/skinny-loggins#readme",
   "dependencies": {
+    "lodash": "^3.10.1",
     "winston": "^1.0.1"
   },
   "devDependencies": {
