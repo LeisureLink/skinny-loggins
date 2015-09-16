@@ -1,5 +1,5 @@
 {
-  "name": "skinny-loggins",
+  "name": "@leisurelink/skinny-loggins",
   "version": "0.1.0",
   "description": "The loggin module for Leisurelink",
   "main": "index.js",

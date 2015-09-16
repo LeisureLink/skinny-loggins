@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 os:
-  - linux
+- linux
 script:
-  - npm run ci
+- npm run ci
 deploy:
   provider: npm
   email: leisurelink
   api_key:
-    secure: DcV2kmrKrFye0dopdDOqzqKJ4ZilWB3sMxWcg+rafkL5XhQwI5eX6KlKfT8P07f6XctJ030D7jqeFjKX6u8upeY/BKW32y0eVmnBL6H2vGtDfUzI2IIH09Z9+Fj4WgZYyVOzv9PUfGsPSzIf5jeWntaFdtTOqD0nly7vnBJ4jF5LEegCIMZvrGHZx8FLn46+uhnzrLwth0f7oPfSTjU0Ny7mjHs37IVg86OK8XB1sh0fdxxNcRbKYYUkx6GXbePguXNSn60fGRMs6SgP+M3PZCsVdTZWWowGl+NjGW8Osjg610TkagNeNVY2L5ViDqB80UVU4pocPkHG/12yEPHLFrlwuO74qndqMWdKg4dXQobKalZi22XO5bVo7w/0Eyrid6bxR/+oZHt1HI7ALGzX/FjnuIEIISmMdkE15OJCxMy+kz+dGQwVApC31i7Sebn3+qdnFo/wgRo8Za6CpA8nSIVeyc/ORUQgtVziph9aMYkw9GQTZ5yP+wYS6MTc7MBbwSCmywVKunF0nC5rz18+uSyNVtaSQJD5lInxSow0880jTpleQ0s/eZPJCDdxnJPzwS6PQFh1oK3EcIfVZf1XMxAg3qewgSCHXYv2shPHEfH7dryVYofflE8CgaDHTWNDD69769CtAuAAeKpFg+rCH60UmL4XM0TBuKkkH0p5d50=
+    secure: HZ5/X1rmMWQjijUhm+LOQwGFnsZl7fA6Pw4EJeB5B66CvJ/9SL+oBMqd3xx7yq+5qeIyTv/fqrohhWBhVzHiPzkiUFfS9u97eMl47F1ObGc18ldUAajnHypWPQE4dWfnTIHe9UJ8j2cRowi8kNfDDUyqXe4ntNM6THOFZKiU8WNF3YzQaCQRXnAtsUsAQLb0kAO+A9g5jdPn6rG3cCNeOnl6OIVK2pCdlypzW7fVdIG5PuO/aKCPQ3GXL+NOHI7i2jx5EAgKA4EdMUkMCCSjbf+CjHLB5diIiwK7UpRBz/5P+v3Og5563SGvEgxm20Z2MNRiarEGyjtLI4eYeumw/uN0lPgTJKnPxyuGFnW0KgG6+W5IKNq4KjChfV6DwyZxfkVehCOXOS1thyCR9giwxLy7IlHAoDwwFaH+uQmtoTn/7olUZvmV4bZ1LGMUNR6/FyTUICuZCvhCUj1mpuIv8tgt+ZGpYqP1YK3AHSQfxvEvyX2jBXZweHXRtdOKE09luLsXbXbmkFPaNm9UjMq/aQd4gwj1GH1t8wJD6wpi9rzpsoqMhw3MZXinssEL+OgYrsNAasqKqssF8Qr+qvPqqLku6tkDDio8tsLAXBzmqWvFGnKWtab70u3dwXWRiSwt2yQrEMikVxW2iOksGz4Los472AXUIR/i7p44tYQl6p0=
   on:
     tags: true
     repo: LeisureLink/skinny-loggins
