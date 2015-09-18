@@ -1,2 +1,2 @@
-'use strict';
-module.exports = require('./lib');
+import lib from './lib';
+export default lib;
