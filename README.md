@@ -7,20 +7,32 @@
 
 The logger of your dreams.
 
-## Setup
-By default init needs to be ran but no transports need to be passed in. A file and a console transport will be used.
+## Get going setup
+
 The file logger will log to `./logs/all-logs.log`.
 
 ```javascript
-var logger = require('skinny-loggins');
+var Loggins = require('skinny-loggins');
 
-// Do this only once
-// This sets up the transports for your app
-// After that, require skinny-loggins and you are on your way
-logger.init({
-  file: {},
-  console: {}
-});
+// This will create a console logger
+// and a file logger (./logs/all-logs.log)
+var logger = new Loggins();
 
 logger.log('Know when to hold them, know when to fold them');
+```
+
+## Configure the setup
+```javascript
+var Loggins = require('skinny-loggins');
+
+var transports = {
+  file: {
+    filename: './folder/error.log',
+    //...
+  }
+};
+
+var logger = new Loggins(transports);
+
+logger.log('something cool');
 ```
