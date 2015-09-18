@@ -22,7 +22,7 @@ var Loggins = require('skinny-loggins');
 // and a file logger (./logs/all-logs.log)
 var logger = new Loggins();
 
-logger.log('Know when to hold them, know when to fold them');
+logger.log('I went to the Danger Zone');
 ```
 
 ## Configure the setup
@@ -57,7 +57,9 @@ logger.remove('http');
 ```
 
 ## defaults
+
 If you new up a logger but don't specify a transport for it to log on, these are the defaults to which you will receive on demand.
+
 ### console
 
 ```javascript
