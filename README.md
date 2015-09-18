@@ -4,12 +4,7 @@
 
 [![Build Status](https://travis-ci.org/LeisureLink/skinny-loggins.svg?branch=master)](https://travis-ci.org/LeisureLink/skinny-loggins)
 
-
 The logger of your dreams.
-
-## Requirements
-To get this logger working, you will need to use
-  - `node 4.1`
 
 ## Get going setup
 
