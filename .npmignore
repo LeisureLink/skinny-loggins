@@ -2,3 +2,4 @@
 .eslint*
 .editorconfig
 tests
+lib

@@ -52,11 +52,11 @@ describe('loggins', function(){
   describe('options', function(){
 
     describe('One without the other', function(){
-      it("doesn't specify file if it isn't there", function(){
+      it("doesn't specify file if console is specified",function(){
         var logger = new Loggins({ console: {} });
         expect(logger.transports).to.not.have.property('file');
       });
-      it("doesn't specify file if it isn't there", function(){
+      it("doesn't specify console if file is specified", function(){
         var logger = new Loggins({ file: {} });
         expect(logger.transports).to.not.have.property('console');
       });
