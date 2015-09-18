@@ -7,6 +7,10 @@
 
 The logger of your dreams.
 
+## Requirements
+To get this logger working, you will need to use
+  - `node 4.1`
+
 ## Get going setup
 
 The file logger will log to `./logs/all-logs.log`.
