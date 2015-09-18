@@ -40,3 +40,47 @@ var logger = new Loggins(transports);
 
 logger.log('something cool');
 ```
+
+## Adding and removing transports
+```javascript
+var Loggins = require('skinny-loggins');
+var logger = new Loggins();
+
+// create an http transport
+var transport = {
+  host: 'http://some.url'
+};
+logger.add('http', transport);
+
+// remove
+logger.remove('http');
+```
+
+## defaults
+If you new up a logger but don't specify a transport for it to log on, these are the defaults to which you will receive on demand.
+### console
+
+```javascript
+{
+  timestamp: true,
+  prettyPrint: true,
+  depth: 1,
+  level: 'info',
+  handleExceptions: true,
+  colorize: true
+}
+```
+
+### file
+
+```javascript
+{
+  level: 'debug',
+  filename: './logs/all-logs.log',
+  handleExceptions: true,
+  json: true,
+  maxsize: 5242880, //5MB
+  maxFiles: 5,
+  colorize: false
+}
+```
