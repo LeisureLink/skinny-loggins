@@ -16,24 +16,8 @@ describe('loggins', function(){
       logger = new Loggins();
     });
 
-    it('defaults file as a transport', function(){
-      expect(logger.transports.file).to.be.ok;
-    });
-
     it('defaults console as a transport', function(){
       expect(logger.transports.console).to.be.ok;
-    });
-
-    describe('File transport', function(){
-      it('has the defaults set from transport-defaults', function(){
-        var file = logger.transports.file;
-        expect(file).to.have.property('filename').and.equal('all-logs.log');
-        expect(file).to.have.property('level').and.equal('debug');
-        expect(file).to.have.property('handleExceptions').to.equal(true);
-        expect(file).to.have.property('json').and.to.equal(true);
-        expect(file).to.have.property('maxsize').and.to.equal(5242880);
-        expect(file).to.have.property('colorize').and.to.equal(false);
-      });
     });
 
     describe('Console transport', function(){
@@ -41,7 +25,7 @@ describe('loggins', function(){
         var consl = logger.transports.console;
         expect(consl).to.have.property('timestamp').and.to.equal(true);
         expect(consl).to.have.property('prettyPrint').and.to.equal(true);
-        expect(consl).to.have.property('depth').and.to.equal(1);
+        expect(consl).to.have.property('depth').and.to.equal(null);
         expect(consl).to.have.property('level').and.to.equal('info');
         expect(consl).to.have.property('handleExceptions').and.to.equal(true);
         expect(consl).to.have.property('colorize').and.to.equal(true);
