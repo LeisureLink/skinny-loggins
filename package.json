@@ -1,6 +1,6 @@
 {
   "name": "@leisurelink/skinny-loggins",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "The loggin module for Leisurelink",
   "main": "index.js",
   "scripts": {
