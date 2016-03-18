@@ -21,4 +21,4 @@ export default joi.object({
   maxRetries: joi.number(),
   zippedArchive: joi.boolean(),
   options: joi.object().default({ flags: 'a' })
-});
+}).label('File Transport');

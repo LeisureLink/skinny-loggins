@@ -1,13 +1,11 @@
 try{
   require('source-map-support/register');
 }catch(e){}
-import winston from 'winston';
-import { settings as defaultSettings, transports as defaultTransports } from './defaults/settings';
+import winston, { Logger } from 'winston';
 import {
   validate,
   supportedTransportsSchema,
   settingsSchema,
-  transportsArraySchema,
   transportsSchema
 } from './schemas';
 
@@ -65,13 +63,9 @@ const getTransportName = (name) =>{
 //   }
 // }
 
-
-
-export default function (t=defaultTransports, s=defaultSettings){
-  let settings = validate(s, settingsSchema);
-  let transports = validate(t, transportsArraySchema);
-  settings.transports = transports;
-  let logger = new winston.Logger(settings);
+export default function (settings){
+  settings = validate(settings, settingsSchema);
+  let logger = new Logger(settings);
 
   return {
     silly: logger.log.bind(logger, 'silly'),
