@@ -6,6 +6,9 @@ machine:
 test:
   override:
     - npm run ci
+dependencies:
+  pre:
+    - rm -rf ~/$CIRCLE_PROJECT_REPONAME/node_modules
 deployment:
   production:
     tag: /v.*/

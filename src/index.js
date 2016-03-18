@@ -1,3 +1,6 @@
+try{
+  require('source-map-support/register');
+}catch(e){}
 import winston from 'winston';
 import { settings as defaultSettings, transports as defaultTransports } from './defaults/settings';
 import {
