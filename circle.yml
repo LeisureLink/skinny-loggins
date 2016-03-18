@@ -1,0 +1,13 @@
+machine:
+  timezone:
+    America/Denver
+  node:
+    version: 0.12
+test:
+  override:
+    - npm run ci
+deployment:
+  production:
+    tag: /v.*/
+    commands:
+      - echo "This is where deployment would normally happen"
