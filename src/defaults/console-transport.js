@@ -1,4 +1,3 @@
-'use strict';
 export default {
   timestamp: true,
   prettyPrint: true,
