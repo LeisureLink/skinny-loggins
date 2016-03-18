@@ -2,8 +2,6 @@
 
 ![Skinny Loggins](https://raw.githubusercontent.com/LeisureLink/skinny-loggins/master/docs/images/logo.png?token=AAIToGArZ99_nV2AswlU_a4wC-ceBxRAks5WAsICwA%3D%3D)
 
-[![Build Status](https://travis-ci.org/LeisureLink/skinny-loggins.svg?branch=master)](https://travis-ci.org/LeisureLink/skinny-loggins)
-
 The logger of your dreams.
 
 ## Get going setup
