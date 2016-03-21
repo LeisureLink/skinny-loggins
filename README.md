@@ -6,38 +6,60 @@ The logger of your dreams.
 
 ## Get going setup
 
-The file logger will log to `./logs/all-logs.log`.
-
 ```javascript
-var Loggins = require('skinny-loggins');
+import createLoggins from '@leisurelink/skinny-loggins';
+const logger = createLoggins(/*{settings}*/, /*{transports}*/);
 
-// This will create a console logger
-// and a file logger (./logs/all-logs.log)
-var logger = new Loggins();
+logger.log('debug', 'I went to the Danger Zone');
+```
 
-logger.log('I went to the Danger Zone');
+## Logging levels
+
+These are the current logging levels:
+
+```
+silly,
+debug,
+verbose,
+info,
+warn,
+error
+```
+
+`logger.log()` is a special case where you can specify the level to which you should log.
+
+```
+logger.log('debug', 'Here is my debug message');
+logger.log('info', 'Here is my info message');
+
+logger.debug('Here is my debug message');
+logger.info('here is my info message');
 ```
 
 ## Configure the setup
 ```javascript
-var Loggins = require('skinny-loggins');
+var createLoggins = require('@leisurelink/skinny-loggins');
 
 var transports = {
+  console: {
+    level: process.env.LOG_LEVEL || 'info',
+    timestamp: false
+  },
   file: {
     filename: './folder/error.log',
     //...
   }
 };
 
-var logger = new Loggins(transports);
+var logger = createLoggins(transports);
 
-logger.log('something cool');
+logger.info('something cool');
 ```
 
 ## Adding and removing transports
 ```javascript
-var Loggins = require('skinny-loggins');
-var logger = new Loggins();
+var createLoggins = require('@leisurelink/skinny-loggins');
+var logger = createLoggins();
 
 // create an http transport
 var transport = {
@@ -51,7 +73,7 @@ logger.remove('http');
 
 ## defaults
 
-If you new up a logger but don't specify a transport for it to log on, these are the defaults to which you will receive on demand.
+If you new up a logger but don't specify a transport for it to log on, these are the defaults.
 
 ### console
 

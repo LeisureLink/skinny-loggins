@@ -2,6 +2,9 @@ try{
   require('source-map-support/register');
 }catch(e){}
 import winston, { Logger } from 'winston';
+import _ from 'lodash';
+import transportDefaults from './defaults';
+import debug from './logger';
 import {
   validate,
   supportedTransportsSchema,
@@ -63,15 +66,29 @@ const getTransportName = (name) =>{
 //   }
 // }
 
-export default function (settings){
+export default function (settings, transports){
   settings = validate(settings, settingsSchema);
   let logger = new Logger(settings);
+
+  /*
+    Not the way I want to do it but works for now.
+    Should Just create and extend the current defaulted transports
+    Then create the logger.
+  */
+  _.each(transports, (conf, name) => {
+    const transportName = getTransportName(name);
+    const transport = winston.transports[transportName];
+    const config = _.merge(transportDefaults[transportName], conf);
+    debug('Adding transport: ', transportName, config);
+    logger.remove(transport);
+    logger.add(transport, config);
+  });
 
   return {
     silly: logger.log.bind(logger, 'silly'),
     debug: logger.log.bind(logger, 'debug'),
     verbose: logger.log.bind(logger, 'verbose'),
-    log: logger.log.bind(logger, 'info'),
+    log: logger.log.bind(logger),
     info: logger.log.bind(logger, 'info'),
     warn: logger.log.bind(logger, 'warn'),
     error: logger.log.bind(logger, 'error'),
