@@ -1,10 +1,11 @@
 try{
   require('source-map-support/register');
 }catch(e){}
-import winston, { Logger } from 'winston';
-import _ from 'lodash';
 import transportDefaults from './defaults';
+import winston, { Logger } from 'winston';
 import debug from './logger';
+import _ from 'lodash';
+
 import {
   validate,
   supportedTransportsSchema,
@@ -16,55 +17,6 @@ const getTransportName = (name) =>{
   let value = validate(name, supportedTransportsSchema);
   return value[0].toUpperCase() + value.substring(1);
 };
-
-// export default class SkinnyLoggins extends winston.Logger {
-//   constructor(settings){
-//     super({ exitOnError: false, emitErrs: true });
-//     var self = this;
-//     debug('Constructor initialized');
-//     settings = _.merge(settings || {
-//       console: transportDefaults.console
-//     });
-//     this.winstonTransports = {
-//       console: winston.transports.Console
-//     };
-//
-//     _.forEach(settings, function(config, name) {
-//       debug('Adding transport from settings %s', name);
-//       debug('adding config %o', config);
-//       let defaultedConfig = getTransportDefaults(name, config);
-//       if(defaultedConfig.filename){ // should probably move this out
-//         defaultedConfig.filename = path.resolve(defaultedConfig.filename);
-//       }
-//       self.add(name, defaultedConfig);
-//     });
-//   }
-//
-//   add(transportName, config) {
-//     let transport = this.getTransportByType(transportName);
-//     debug('add %o', transport);
-//     debug('with %o', config);
-//     if(!transport){
-//       throw new Error('Transport type is incorrect: ', transportName);
-//     }
-//     super.add(transport, config);
-//   }
-//
-//   remove(transportName){
-//     let transport = this.getTransportByType(transportName);
-//     debug('remove %o', transport);
-//     if(!transport){
-//       throw new Error(transportName + ' type does not exist');
-//     }
-//     super.remove(transport);
-//   }
-//
-//   getTransportByType(transportName){
-//     let name  = getTransportName(transportName);
-//     debug('Checking for transport "%s"', name);
-//     return winston.transports[name];
-//   }
-// }
 
 export default function (settings, transports){
   settings = validate(settings, settingsSchema);
