@@ -2,7 +2,7 @@ machine:
   timezone:
     America/Denver
   node:
-    version: 0.12
+    version: 4
 test:
   override:
     - npm run ci
