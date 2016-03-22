@@ -33,31 +33,35 @@ export default function (settings, transports){
     const transport = winston.transports[transportName];
     const config = _.merge(transportDefaults[transportName], conf);
     debug('Adding transport: ', transportName, config);
-    logger.remove(transport);
+    try{
+      logger.remove(transport);
+    } catch(e){ debug(e); }
     logger.add(transport, config);
   });
 
-  return {
-    silly: logger.log.bind(logger, 'silly'),
-    debug: logger.log.bind(logger, 'debug'),
-    verbose: logger.log.bind(logger, 'verbose'),
-    log: logger.log.bind(logger),
-    info: logger.log.bind(logger, 'info'),
-    warn: logger.log.bind(logger, 'warn'),
-    error: logger.log.bind(logger, 'error'),
-    addTransport: (name, transportConfig) =>{
-      let transportName = getTransportName(name);
-      let config = validate(transportConfig, transportsSchema[transportName]);
-      logger.add(winston.transports[transportName], config);
-    },
-    removeTransport: (name) =>{
-      let transportName = getTransportName(name);
-      let transport = winston.transports[transportName];
-      logger.remove(transport);
-    },
-    getTransportByName: (name) =>{
-      let transportName = getTransportName(name);
-      return winston.transports[transportName];
-    }
+  return (moduleName) =>{
+    return {
+      silly: logger.log.bind(logger, 'silly', moduleName),
+      debug: logger.log.bind(logger, 'debug', moduleName),
+      verbose: logger.log.bind(logger, 'verbose', moduleName),
+      log: logger.log.bind(logger),
+      info: logger.log.bind(logger, 'info', moduleName),
+      warn: logger.log.bind(logger, 'warn', moduleName),
+      error: logger.log.bind(logger, 'error', moduleName),
+      addTransport: (name, transportConfig) =>{
+        let transportName = getTransportName(name);
+        let config = validate(transportConfig, transportsSchema[transportName]);
+        logger.add(winston.transports[transportName], config);
+      },
+      removeTransport: (name) =>{
+        let transportName = getTransportName(name);
+        let transport = winston.transports[transportName];
+        logger.remove(transport);
+      },
+      getTransportByName: (name) =>{
+        let transportName = getTransportName(name);
+        return winston.transports[transportName];
+      }
+    };
   };
 }

@@ -17,18 +17,16 @@ logger.log('debug', 'I went to the Danger Zone');
 
 These are the current logging levels:
 
-```
-silly,
-debug,
-verbose,
-info,
-warn,
-error
-```
+  - silly
+  - debug
+  - verbose
+  - info
+  - warn
+  - error
 
 `logger.log()` is a special case where you can specify the level to which you should log.
 
-```
+```javascript
 logger.log('debug', 'Here is my debug message');
 logger.log('info', 'Here is my info message');
 
@@ -42,12 +40,17 @@ var createLoggins = require('@leisurelink/skinny-loggins');
 
 var transports = {
   console: {
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL, // if undefined it will default to info
     timestamp: false
   },
   file: {
     filename: './folder/error.log',
     //...
+  },
+  logstash: {
+    node_name: 'my app', // or leave blank for defaulted node process name
+    host: '99.99.99.99',
+    port: 28777
   }
 };
 
@@ -100,4 +103,16 @@ If you new up a logger but don't specify a transport for it to log on, these are
   maxFiles: 5,
   colorize: false
 }
+```
+
+### logstash
+
+The logstash information is not defaulted as this should be specified from the environment.
+The properties required are:
+
+  - host
+  - port
+
+```js
+{  }
 ```
