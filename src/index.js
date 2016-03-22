@@ -5,6 +5,7 @@ import transportDefaults from './defaults';
 import winston, { Logger } from 'winston';
 import debug from './logger';
 import _ from 'lodash';
+import 'winston-logstash';
 
 import {
   validate,
