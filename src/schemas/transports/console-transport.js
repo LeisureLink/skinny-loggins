@@ -9,7 +9,7 @@ export default joi.object({
   json: joi.boolean().default(true),
   stringify: joi.boolean().default(true),
   prettyPrint: joi.alternatives().try(joi.boolean().default(true), joi.func()),
-  depth: joi.number().default(null),
+  depth: joi.number(),
   humanReadableUnhandledException: joi.boolean().default(true),
   showLevel: joi.boolean().default(true),
   formatter: joi.func(),

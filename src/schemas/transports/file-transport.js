@@ -3,8 +3,8 @@ import loggingLevels from '../logging-levels';
 
 export default joi.object({
   level: loggingLevels.default('info'),
-  silent: joi.boolean(),
-  colorize: joi.boolean(),
+  silent: joi.boolean().default(false),
+  colorize: joi.boolean().default(false),
   timestamp: joi.alternatives().try(joi.boolean().default(true), joi.func()),
   filename: joi.string().default('logs.log'),
   maxsize: joi.number().default(5242880), // 5MB

@@ -6,9 +6,9 @@ The logger of your dreams.
 
 ## Get going setup
 
-```javascript
+```js
 import createLoggins from '@leisurelink/skinny-loggins';
-const logger = createLoggins(/*{settings}*/, /*{transports}*/);
+const logger = createLoggins(/*{settings}*/);
 
 logger.log('debug', 'I went to the Danger Zone');
 ```
@@ -26,7 +26,7 @@ These are the current logging levels:
 
 `logger.log()` is a special case where you can specify the level to which you should log.
 
-```javascript
+```js
 logger.log('debug', 'Here is my debug message');
 logger.log('info', 'Here is my info message');
 
@@ -35,7 +35,7 @@ logger.info('here is my info message');
 ```
 
 ## Configure the setup
-```javascript
+```js
 var createLoggins = require('@leisurelink/skinny-loggins');
 
 var settings = {
@@ -58,7 +58,9 @@ var settings = {
 };
 
 export default createLoggins(settings);
+```
 
+```js
 // another file
 import createLogger from './logger.js';
 const logger = createLogger('myModule');
@@ -80,34 +82,43 @@ logger.add('http', transport);
 logger.remove('http');
 ```
 
-## defaults
+## Transports and their defaults
 
 If you new up a logger but don't specify a transport for it to log on, these are the defaults.
 
-### console
+### Console
 
-```javascript
+#### Defaults
+
+```js
 {
-  timestamp: true,
-  prettyPrint: true,
-  depth: 1,
   level: 'info',
-  handleExceptions: true,
-  colorize: true
+  silent: false,
+  colorize: true,
+  timestamp: true,
+  json: true,
+  stringify: true,
+  humanReadableUnhandledException: true,
+  showLevel: true,
+  stderrLevels: [ 'error', 'debug' ]
 }
 ```
 
-### file
+### File
 
-```javascript
+#### Defaults
+
+```js
 {
-  level: 'debug',
-  filename: './logs/all-logs.log',
-  handleExceptions: true,
-  json: true,
-  maxsize: 5242880, //5MB
+  level: 'info',
+  filename: 'logs.log',
+  maxsize: 5242880,
   maxFiles: 5,
-  colorize: false
+  json: true,
+  eol: '\n',
+  logstash: true,
+  showLevel: true,
+  options: { flags: 'a' }
 }
 ```
 
@@ -119,11 +130,12 @@ The properties required are:
   - host
   - port -- this will default to 2877
 
-Once those properties have been provided, these settings are defaulted:
+
+#### Defaults
 
 ```js
 {
-  host: '<specified host>',
+  host: '<specified host>', // Required
   port: 28777,
   logstash: true,
   ssl_enable: false,
