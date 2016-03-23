@@ -35,9 +35,11 @@ describe('Console transport schema', () =>{
       options: {
         flags: 'a'
       },
+      prettyPrint: false,
       showLevel: true,
       silent: false,
-      colorize: false
+      colorize: false,
+      timestamp: true
     });
   });
 
@@ -49,7 +51,52 @@ describe('Console transport schema', () =>{
   });
 
   it('allows prettyPrint to be a boolean', () =>{
+    model.prettyPrint = true;
+    expect(() =>{
+      validate(model, schema);
+    }).to.not.throw();
+  });
+
+  it('allows timestamp to be a function', () =>{
+    model.timestamp = () =>{};
+    expect(() =>{
+      validate(model, schema);
+    }).to.not.throw();
+  });
+
+  it('allows timestamp to be a boolean', () =>{
+    model.timestamp = true;
+    expect(() =>{
+      validate(model, schema);
+    }).to.not.throw();
+  });
+
+  it('does not allow depth if prettyprint is false', () =>{
     model.prettyPrint = false;
+    model.depth = 4;
+    expect(() =>{
+      validate(model, schema);
+    }).to.throw('"depth" is not allowed');
+  });
+
+  it('allows depth if prettyprint is true', () =>{
+    model.prettyPrint = true;
+    model.depth = 4;
+    expect(() =>{
+      validate(model, schema);
+    }).to.not.throw();
+  });
+
+  it('does not allow formatter if json is true', () =>{
+    model.formatter = () =>{};
+    expect(() =>{
+      validate(model, schema);
+    }).to.throw('"formatter" is not allowed');
+  });
+
+  it('allows formatter if json is false', () =>{
+    model.json = false;
+    model.formatter = () =>{};
     expect(() =>{
       validate(model, schema);
     }).to.not.throw();
