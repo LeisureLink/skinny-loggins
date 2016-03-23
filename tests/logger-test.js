@@ -65,12 +65,6 @@ describe('loggins', () =>{
       }).to.not.throw();
     });
 
-    it('does not throw an exception on logger.debug', () => {
-      expect(() =>{
-        logger.debug('test');
-      }).to.not.throw();
-    });
-
     it('does not throw an exception on logger.warn', () => {
       expect(() =>{
         logger.warn('test');
