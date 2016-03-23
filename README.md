@@ -38,25 +38,31 @@ logger.info('here is my info message');
 ```javascript
 var createLoggins = require('@leisurelink/skinny-loggins');
 
-var transports = {
-  console: {
-    level: process.env.LOG_LEVEL, // if undefined it will default to info
-    timestamp: false
-  },
-  file: {
-    filename: './folder/error.log',
-    //...
-  },
-  logstash: {
-    node_name: 'my app', // or leave blank for defaulted node process name
-    host: '99.99.99.99',
-    port: 28777
+var settings = {
+  level: 'debug',
+  transports: {
+    console: {
+      level: process.env.LOG_LEVEL, // if undefined it will default to info
+      timestamp: false
+    },
+    file: {
+      filename: './folder/error.log',
+      //...
+    },
+    logstash: {
+      node_name: 'my app', // or leave blank for defaulted node process name
+      host: '99.99.99.99',
+      port: 28777
+    }
   }
 };
 
-var logger = createLoggins(transports);
+export default createLoggins(settings);
 
-logger.info('something cool');
+// another file
+import createLogger from './logger.js';
+const logger = createLogger('myModule');
+logger.info('something cool');  // <date> info: myModule: "something cool"
 ```
 
 ## Adding and removing transports
@@ -111,8 +117,17 @@ The logstash information is not defaulted as this should be specified from the e
 The properties required are:
 
   - host
-  - port
+  - port -- this will default to 2877
+
+Once those properties have been provided, these settings are defaulted:
 
 ```js
-{  }
+{
+  host: '<specified host>',
+  port: 28777,
+  logstash: true,
+  ssl_enable: false,
+  rejectUnauthorized: false,
+  strip_colors: false
+}
 ```

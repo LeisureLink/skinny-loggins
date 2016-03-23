@@ -1,7 +1,12 @@
 import joi from 'joi';
-import { transportsArraySchema } from './transports';
+import { transportsSchemas } from './transports';
+import { Console } from '../defaults';
+import levels from './logging-levels';
 
 export default joi.object({
-  level: joi.string().default('info'),
-  transports: transportsArraySchema
-}).default({}).label('settings');
+  level: levels,
+  transports: transportsSchemas
+}).default({
+  level: 'info',
+  transports: { Console }
+}).label('settings');

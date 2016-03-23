@@ -19,35 +19,30 @@ const getTransportName = (name) =>{
   return value[0].toUpperCase() + value.substring(1);
 };
 
-export default function (settings, transports){
+export default function (settings){
   settings = validate(settings, settingsSchema);
+
+  settings.transports = _.reduce(settings.transports, (arr, conf, tName) => {
+    debug('Adding transport:', tName, conf);
+    const transportName = getTransportName(tName);
+    const Transport = winston.transports[transportName];
+    const config = _.merge(transportDefaults[transportName], conf);
+    arr.push(new Transport(config));
+    return arr;
+  }, []);
+
   let logger = new Logger(settings);
 
-  /*
-    Not the way I want to do it but works for now.
-    Should Just create and extend the current defaulted transports
-    Then create the logger.
-  */
-  _.each(transports, (conf, name) => {
-    const transportName = getTransportName(name);
-    const transport = winston.transports[transportName];
-    const config = _.merge(transportDefaults[transportName], conf);
-    debug('Adding transport: ', transportName, config);
-    try{
-      logger.remove(transport);
-    } catch(e){ debug(e); }
-    logger.add(transport, config);
-  });
-
   return (moduleName) =>{
+    let namespace = `${moduleName}:`;
     return {
-      silly: logger.log.bind(logger, 'silly', moduleName),
-      debug: logger.log.bind(logger, 'debug', moduleName),
-      verbose: logger.log.bind(logger, 'verbose', moduleName),
+      silly: logger.log.bind(logger, 'silly', namespace),
+      debug: logger.log.bind(logger, 'debug', namespace),
+      verbose: logger.log.bind(logger, 'verbose', namespace),
       log: logger.log.bind(logger),
-      info: logger.log.bind(logger, 'info', moduleName),
-      warn: logger.log.bind(logger, 'warn', moduleName),
-      error: logger.log.bind(logger, 'error', moduleName),
+      info: logger.log.bind(logger, 'info', namespace),
+      warn: logger.log.bind(logger, 'warn', namespace),
+      error: logger.log.bind(logger, 'error', namespace),
       addTransport: (name, transportConfig) =>{
         let transportName = getTransportName(name);
         let config = validate(transportConfig, transportsSchema[transportName]);
@@ -58,10 +53,7 @@ export default function (settings, transports){
         let transport = winston.transports[transportName];
         logger.remove(transport);
       },
-      getTransportByName: (name) =>{
-        let transportName = getTransportName(name);
-        return winston.transports[transportName];
-      }
+      on: logger.on.bind(logger)
     };
   };
 }

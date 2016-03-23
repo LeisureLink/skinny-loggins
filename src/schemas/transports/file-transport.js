@@ -2,7 +2,7 @@ import joi from 'joi';
 import loggingLevels from '../logging-levels';
 
 export default joi.object({
-  level: loggingLevels.default('debug'),
+  level: loggingLevels.default('info'),
   silent: joi.boolean(),
   colorize: joi.boolean(),
   timestamp: joi.alternatives().try(joi.boolean().default(true), joi.func()),

@@ -12,6 +12,6 @@ export default joi.object({
   depth: joi.number().default(null),
   humanReadableUnhandledException: joi.boolean().default(true),
   showLevel: joi.boolean().default(true),
-  formatter: joi.func().default(undefined),
+  formatter: joi.func(),
   stderrLevels: joi.array().items(joi.string()).default(['error', 'debug'])
 }).label('Console Transport');
