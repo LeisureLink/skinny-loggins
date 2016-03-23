@@ -6,7 +6,7 @@ export default joi.object({
   silent: joi.boolean().default(false),
   colorize: joi.boolean().default(true),
   timestamp: joi.alternatives().try(joi.func(), joi.boolean()),
-  json: joi.boolean().default(true),
+  json: joi.boolean().default(false),
   stringify: joi.boolean().default(true),
   prettyPrint: joi.alternatives().try(joi.boolean(), joi.func()).default(false),
   depth: joi.number(),

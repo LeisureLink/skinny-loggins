@@ -27,7 +27,7 @@ describe('Console transport schema', () =>{
     expect(obj).to.eql({
       colorize: true,
       humanReadableUnhandledException: true,
-      json: true,
+      json: false,
       level: 'info',
       showLevel: true,
       silent: false,
