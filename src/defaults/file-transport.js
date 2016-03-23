@@ -1,4 +1,3 @@
-'use strict';
 export default {
   level: 'debug',
   filename: './logs/all-logs.log',

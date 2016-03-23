@@ -1,5 +1,10 @@
-.git*
-.eslint*
-.editorconfig
+docs
+src
 tests
-lib
+.babel*
+.editorconfig
+.eslint*
+.gitignore
+.npmignore
+.circle.yml
+CONTRIBUTING.md
