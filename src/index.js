@@ -21,15 +21,14 @@ const getTransportName = (name) =>{
 
 export default function (settings){
   settings = validate(settings, settingsSchema);
-
-  settings.transports = _.reduce(settings.transports, (arr, conf, tName) => {
+  settings.transports = _.map(settings.transports, (conf, tName) => {
     debug('Adding transport:', tName, conf);
     const transportName = getTransportName(tName);
     const Transport = winston.transports[transportName];
-    const config = _.merge(transportDefaults[transportName], conf);
-    arr.push(new Transport(config));
-    return arr;
-  }, []);
+    const defaultConf = transportDefaults[transportName];
+    const config = _.assign(defaultConf, conf);
+    return new Transport(config);
+  });
 
   let logger = new Logger(settings);
 

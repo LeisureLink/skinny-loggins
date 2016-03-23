@@ -1,64 +1,86 @@
-// var chai = require('chai');
-// var expect = chai.expect;
-// var Loggins = require('../index');
-//
-// describe('loggins', function(){
-//   it("doesn't throw any exceptions for new object", function(){
-//     expect(function(){
-//       new Loggins();
-//     }).to.not.throw();
-//   });
-//
-//   describe('defaults', function(){
-//     var logger;
-//     beforeEach(function(){
-//       logger = new Loggins();
-//     });
-//
-//     it('defaults console as a transport', function(){
-//       expect(logger.transports.console).to.be.ok;
-//     });
-//
-//     describe('Console transport', function(){
-//       it('has the defaults set from transport-defaults', function(){
-//         var consl = logger.transports.console;
-//         expect(consl).to.have.property('timestamp').and.to.equal(true);
-//         expect(consl).to.have.property('prettyPrint').and.to.equal(true);
-//         expect(consl).to.have.property('depth').and.to.equal(null);
-//         expect(consl).to.have.property('level').and.to.equal('info');
-//         expect(consl).to.have.property('handleExceptions').and.to.equal(true);
-//         expect(consl).to.have.property('colorize').and.to.equal(true);
-//       });
-//     });
-//   });
-//
-//   describe('options', function(){
-//
-//     describe('One without the other', function(){
-//       it("doesn't specify file if console is specified",function(){
-//         var logger = new Loggins({ console: {} });
-//         expect(logger.transports).to.not.have.property('file');
-//       });
-//       it("doesn't specify console if file is specified", function(){
-//         var logger = new Loggins({ file: {} });
-//         expect(logger.transports).to.not.have.property('console');
-//       });
-//     });
-//
-//     describe('file', function(){
-//       it('sets the filename to lol.log', function(){
-//         var logger = new Loggins({ file: { filename: 'lol.log' } });
-//         var file = logger.transports.file;
-//         expect(file).to.have.property('filename').and.to.equal('lol.log');
-//       });
-//     });
-//
-//     describe('console', function(){
-//       it('sets the prettyPrint to false', function(){
-//         var logger = new Loggins({ console: { prettyPrint: false } });
-//         var consl = logger.transports.console;
-//         expect(consl).to.have.property('prettyPrint').and.to.equal(false);
-//       });
-//     });
-//   });
-// });
+import { expect } from 'chai';
+import Loggins from '../src';
+
+describe('loggins', () =>{
+  let settings;
+  beforeEach(() =>{
+    settings = {
+      level: 'silly',
+      transports: {
+        Console: {
+          level: 'silly'
+        }
+      }
+    };
+  });
+
+  it('does not throw an exception for a valid console transport and settings', () =>{
+    expect(() =>{
+      Loggins(settings);
+    }).to.not.throw();
+  });
+
+  it('throws an exception on invalid global levels', () =>{
+    settings.level = 'nope';
+    expect(() =>{
+      Loggins(settings);
+    }).to.throw('"level" must be one of');
+  });
+
+  it('throws an exception on invalid transport levels', () =>{
+    settings.transports.Console.level = 'nope';
+    expect(() =>{
+      Loggins(settings);
+    }).to.throw('"level" must be one of');
+  });
+
+  describe('logging functions', () =>{
+    let logger;
+    beforeEach(() =>{
+      let nameLogger = Loggins(settings);
+      logger = nameLogger('test');
+    });
+
+    it('does not throw an exception on logger.log', () => {
+      expect(() =>{
+        logger.log('info', 'test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.silly', () => {
+      expect(() =>{
+        logger.silly('test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.debug', () => {
+      expect(() =>{
+        logger.debug('test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.verbose', () => {
+      expect(() =>{
+        logger.verbose('test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.debug', () => {
+      expect(() =>{
+        logger.debug('test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.warn', () => {
+      expect(() =>{
+        logger.warn('test');
+      }).to.not.throw();
+    });
+
+    it('does not throw an exception on logger.error', () => {
+      expect(() =>{
+        logger.error('test');
+      }).to.not.throw();
+    });
+  });
+});

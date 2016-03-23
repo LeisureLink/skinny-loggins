@@ -33,7 +33,7 @@ describe('Console transport schema', () =>{
       silent: false,
       stderrLevels: ['error', 'debug'],
       stringify: true,
-      timestamp: true
+      prettyPrint: false
     });
   });
 
@@ -49,5 +49,11 @@ describe('Console transport schema', () =>{
     expect(() =>{
       validate(model, schema);
     }).to.not.throw();
+  });
+
+  it('allows prettyPrint to be a function but does not override to boolean', () =>{
+    model.prettyPrint = () =>{};
+    let obj = validate(model, schema);
+    expect(obj.prettyPrint).to.be.a('function');
   });
 });

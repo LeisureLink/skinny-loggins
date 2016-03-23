@@ -6,5 +6,9 @@ export default {
   prettyPrint: true,
   level: 'info',
   handleExceptions: true,
-  colorize: true
+  colorize: true,
+  silence: false,
+  json: false,
+  stringify: true,
+  showLevel: true
 };

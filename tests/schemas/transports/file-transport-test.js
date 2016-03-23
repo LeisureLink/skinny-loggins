@@ -101,4 +101,10 @@ describe('Console transport schema', () =>{
       validate(model, schema);
     }).to.not.throw();
   });
+
+  it('allows prettyPrint to be a function but does not override to boolean', () =>{
+    model.prettyPrint = () =>{};
+    let obj = validate(model, schema);
+    expect(obj.prettyPrint).to.be.a('function');
+  });
 });
