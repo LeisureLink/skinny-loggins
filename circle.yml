@@ -13,4 +13,4 @@ deployment:
   production:
     tag: /v.*/
     commands:
-      - echo "This is where deployment would normally happen"
+      - npm publish
