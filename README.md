@@ -131,3 +131,39 @@ The properties required are:
   options: { flags: 'a' }
 }
 ```
+
+## consumeFrom
+
+Many of LeisureLink's modules use an event logging pattern to publish events for any logger to consume. One example of this is @leisurelink/skinny-event-loggins. The consumeFrom method is for convenience in integrating these log events into your logging configuration. The consumeFrom expects a component argument with an `on` function that can be used to subscribe to `log` events. These events should have this structure:
+
+```js
+{
+  kind: 'info',
+  message: 'howdy',
+  namespace: 'component',
+  err: new Error('Badness')
+}
+```
+
+### Example
+
+```js
+// src/logger.js
+import createLoggins from '@leisurelink/skinny-loggins';
+import component from './configured-component';
+const settings = {
+  // Console: { /* are defaulted */ },
+  // Logstash: { host: '', port: 28777 }
+}
+let logger = createLoggins(settings);
+logger.consumeFrom(component);
+export default logger;
+
+// src/component.js
+import createEventLogger from '@leisurelink/skinny-event-loggins';
+let logger = createEventLogger('component');
+export default {
+  work: () => { logger.info('Work started'); },
+  on: (ev, handler) => { logger.on(ev, handler); }
+};
+```

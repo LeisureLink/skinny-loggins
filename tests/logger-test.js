@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import Loggins from '../src';
+import { EventEmitter } from 'events';
 
 describe('loggins', () =>{
   let settings;
@@ -73,8 +74,35 @@ describe('loggins', () =>{
 
     it('does not throw an exception on logger.error', () => {
       expect(() =>{
-        logger.error('test');
+        logger.error('test', new Error('I should output'));
       }).to.not.throw();
+    });
+  });
+
+  describe('#consumeFrom', () =>{
+    let emitter;
+    let loggins;
+    before(() => {
+      emitter = new EventEmitter();
+      loggins = Loggins(settings);
+      loggins.consumeFrom(emitter);
+    });
+
+    //should probably have a better way to verify than manually reading the output
+    it('should successfully consume the log event with a namespace and error', () =>{
+      emitter.emit('log', { kind: 'error', namespace: 'ns', message: 'shucks', err: new Error('darn') });
+    });
+
+    it('should successfully consume the log event with a namespace and no error', () =>{
+      emitter.emit('log', { kind: 'info', namespace: 'ns', message: 'shucks' });
+    });
+
+    it('should successfully consume the log event with no namespace and an error', () =>{
+      emitter.emit('log', { kind: 'error', message: 'shucks', err: new Error('darn') });
+    });
+
+    it('should successfully consume the log event with no namespace and no error', () =>{
+      emitter.emit('log', { kind: 'info', message: 'shucks' });
     });
   });
 });

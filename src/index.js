@@ -32,7 +32,7 @@ export default function (settings){
 
   let logger = new Logger(settings);
 
-  return (moduleName) =>{
+  const logFactory = (moduleName) =>{
     let namespace = `${moduleName}:`;
     return {
       silly: logger.log.bind(logger, 'silly', namespace),
@@ -55,4 +55,20 @@ export default function (settings){
       on: logger.on.bind(logger)
     };
   };
+  logFactory.consumeFrom = (eventSink) =>{
+    eventSink.on('log', (ev) => {
+      if (ev.namespace) {
+        if (ev.err) {
+          logger.log(ev.kind, `${ev.namespace}:`, ev.message, ev.err);
+        } else {
+          logger.log(ev.kind, `${ev.namespace}:`, ev.message);
+        }
+      } else if (ev.err) {
+        logger.log(ev.kind, ev.message, ev.err);
+      } else {
+        logger.log(ev.kind, ev.message);
+      }
+    });
+  };
+  return logFactory;
 }

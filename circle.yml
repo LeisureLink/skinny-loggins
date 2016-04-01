@@ -9,6 +9,7 @@ test:
 dependencies:
   pre:
     - rm -rf ~/$CIRCLE_PROJECT_REPONAME/node_modules
+    - npm install -g npm@3
 deployment:
   production:
     tag: /v.*/
