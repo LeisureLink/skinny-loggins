@@ -27,7 +27,14 @@ export default function (settings){
     const Transport = winston.transports[transportName];
     const defaultConf = transportDefaults[transportName];
     const config = _.assign(defaultConf, conf);
-    return new Transport(config);
+    const transport = new Transport(config);
+    //keep the app from crashing when there is a logstash connection issue.
+    if(transportName.toUpperCase() === 'LOGSTASH'){
+      transport.on('error', function(err) {
+        console.error(`Logstash error occurred: ${err}`);
+      });
+    }
+    return transport;
   });
 
   let logger = new Logger(settings);
