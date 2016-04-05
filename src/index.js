@@ -16,15 +16,19 @@ import {
 
 const getTransportName = (name) =>{
   let value = validate(name, supportedTransportsSchema);
-  return value[0].toUpperCase() + value.substring(1);
+  return _.capitalize(value);
 };
 
 export default function (settings){
   settings = validate(settings, settingsSchema);
+  debug('available transports: %o', _.keys(winston.transports));
   settings.transports = _.map(settings.transports, (conf, tName) => {
     debug('Adding transport:', tName, conf);
     const transportName = getTransportName(tName);
     const Transport = winston.transports[transportName];
+    if(!Transport){
+      throw new Error(`Transport ${tName} does not seem to exist.`);
+    }
     const defaultConf = transportDefaults[transportName];
     const config = _.assign(defaultConf, conf);
     const transport = new Transport(config);
