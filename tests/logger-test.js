@@ -110,7 +110,7 @@ describe('loggins', () =>{
     let loggins;
     let nameLogger;
     before(()=>{
-      loggins = new Loggins(settings);
+      loggins = Loggins(settings);
     });
 
     it('should use the parent module name as the namespace if ns not provided', (done)=>{
@@ -125,8 +125,6 @@ describe('loggins', () =>{
     it('should use the passed in modulename/namespace if provided', (done)=>{
       nameLogger = loggins('my custom namespace');
       nameLogger.once('logging', (transport, level, message)=>{
-        console.log('message is: %s', message);
-        console.log(message);
         expect(message.indexOf('my custom namespace')).to.be.above(-1);
         done();
       });
@@ -152,8 +150,6 @@ describe('loggins', () =>{
         done();
       });
       moduleNameLogger.info('hello');
-
-
     });
 
     it('no instantiation for default namespace of module.parent', (done)=>{
