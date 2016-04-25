@@ -6,6 +6,7 @@ import winston, { Logger } from 'winston';
 import debug from './logger';
 import _ from 'lodash';
 import 'winston-logstash';
+import path from 'path';
 
 import {
   validate,
@@ -43,7 +44,7 @@ export default function (settings){
 
   let logger = new Logger(settings);
 
-  const logFactory = (moduleName) =>{
+  const createLogObject = (moduleName)=>{
     let namespace = `${moduleName}:`;
     return {
       silly: logger.log.bind(logger, 'silly', namespace),
@@ -63,9 +64,16 @@ export default function (settings){
         let transport = winston.transports[transportName];
         logger.remove(transport);
       },
-      on: logger.on.bind(logger)
+      on: logger.on.bind(logger),
+      once: logger.once.bind(logger)
     };
   };
+
+  const logFactory = (moduleName) =>{
+    moduleName = moduleName || path.basename(module.parent.id, '.js');
+    return createLogObject(moduleName);
+  };
+
   logFactory.consumeFrom = (eventSink) =>{
     eventSink.on('log', (ev) => {
       if (ev.namespace) {
@@ -81,5 +89,13 @@ export default function (settings){
       }
     });
   };
+
+  //the log factory doesn't have to be executed if you just want to log using the parent module's name.
+  //e.g. logFactory.info('hi');
+  Object.assign(logFactory, createLogObject(path.basename(module.parent.id, '.js')));
+
   return logFactory;
+
+
+
 }

@@ -105,4 +105,64 @@ describe('loggins', () =>{
       emitter.emit('log', { kind: 'info', message: 'shucks' });
     });
   });
+
+  describe('namespace', ()=>{
+    let loggins;
+    let nameLogger;
+    before(()=>{
+      loggins = new Loggins(settings);
+    });
+
+    it('should use the parent module name as the namespace if ns not provided', (done)=>{
+      nameLogger = loggins();
+      nameLogger.once('logging', (transport, level, message)=>{
+        expect(message.indexOf('logger-test')).to.be.above(-1);
+        done();
+      });
+      nameLogger.debug('hello');
+    });
+
+    it('should use the passed in modulename/namespace if provided', (done)=>{
+      nameLogger = loggins('my custom namespace');
+      nameLogger.once('logging', (transport, level, message)=>{
+        console.log('message is: %s', message);
+        console.log(message);
+        expect(message.indexOf('my custom namespace')).to.be.above(-1);
+        done();
+      });
+      nameLogger.debug('hello');
+    });
+
+    it('should be able to use multiple namespaces at the same time', (done)=>{
+      let moduleNameLogger = loggins();
+      let customNameLogger = loggins('custom');
+
+      moduleNameLogger.once('logging', (transport, level, message)=>{
+        expect(message.indexOf('logger-test')).to.be.above(-1);
+      });
+      moduleNameLogger.info('hello');
+
+      customNameLogger.once('logging', (transport, level, message)=>{
+        expect(message.indexOf('custom')).to.be.above(-1);
+      });
+      customNameLogger.info('hello');
+
+      moduleNameLogger.once('logging', (transport, level, message)=>{
+        expect(message.indexOf('logger-test')).to.be.above(-1);
+        done();
+      });
+      moduleNameLogger.info('hello');
+
+
+    });
+
+    it('no instantiation for default namespace of module.parent', (done)=>{
+      loggins.once('logging', (transport, level, message)=>{
+        expect(message.indexOf('logger-test')).to.be.above(-1);
+        done();
+      });
+      loggins.info('asdf');
+    });
+
+  });
 });
