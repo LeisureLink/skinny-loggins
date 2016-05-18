@@ -106,58 +106,70 @@ describe('loggins', () =>{
     });
   });
 
-  describe('namespace', ()=>{
+  const logAndCaptureEvent = (logger, message) => {
+    return new Promise((resolve) => {
+      logger.once('logging', (transport, level, message) => {
+        resolve({ transport, level, message });
+      });
+      logger.info(message);
+    });
+  };
+
+  describe('creating a namespaced logger', ()=>{
     let loggins;
     let nameLogger;
     before(()=>{
       loggins = Loggins(settings);
     });
 
-    it('should use the parent module name as the namespace if ns not provided', (done)=>{
+    it('should use no namespace if ns === false', ()=>{
+      nameLogger = loggins(false);
+      return logAndCaptureEvent(nameLogger, 'hello')
+        .then(({ message })=>{
+          expect(message).to.equal('hello');
+        });
+    });
+
+    it('should use parent module id as namespace if ns not provided', ()=>{
       nameLogger = loggins();
-      nameLogger.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('logger-test')).to.be.above(-1);
-        done();
-      });
-      nameLogger.debug('hello');
+      return logAndCaptureEvent(nameLogger, 'hello')
+        .then(({ message })=>{
+          expect(message).to.equal('logger-test: hello');
+        });
     });
 
-    it('should use the passed in modulename/namespace if provided', (done)=>{
+    it('should use the passed in modulename/namespace if provided', ()=>{
       nameLogger = loggins('my custom namespace');
-      nameLogger.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('my custom namespace')).to.be.above(-1);
-        done();
-      });
-      nameLogger.debug('hello');
+      return logAndCaptureEvent(nameLogger, 'hello')
+        .then(({ message })=>{
+          expect(message.indexOf('my custom namespace: ')).to.equal(0);
+        });
     });
 
-    it('should be able to use multiple namespaces at the same time', (done)=>{
-      let moduleNameLogger = loggins();
+    it('should be able to use multiple namespaces at the same time', ()=>{
+      let defaultLogger = loggins();
       let customNameLogger = loggins('custom');
+      let noNamespaceLogger = loggins(false);
 
-      moduleNameLogger.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('logger-test')).to.be.above(-1);
-      });
-      moduleNameLogger.info('hello');
-
-      customNameLogger.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('custom')).to.be.above(-1);
-      });
-      customNameLogger.info('hello');
-
-      moduleNameLogger.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('logger-test')).to.be.above(-1);
-        done();
-      });
-      moduleNameLogger.info('hello');
+      return logAndCaptureEvent(defaultLogger, 'hello')
+        .then(({ message }) => {
+          expect(message).to.equal('logger-test: hello');
+          return logAndCaptureEvent(customNameLogger, 'hello');
+        })
+        .then(({ message }) => {
+          expect(message).to.equal('custom: hello');
+          return logAndCaptureEvent(noNamespaceLogger, 'hello');
+        })
+        .then(({ message }) => {
+          expect(message).to.equal('hello');
+        });
     });
 
-    it('no instantiation for default namespace of module.parent', (done)=>{
-      loggins.once('logging', (transport, level, message)=>{
-        expect(message.indexOf('logger-test')).to.be.above(-1);
-        done();
-      });
-      loggins.info('asdf');
+    it('should be able to log without creating a namespaced logger', ()=>{
+      return logAndCaptureEvent(loggins, 'hello')
+        .then(({ message }) => {
+          expect(message).to.equal('hello');
+        });
     });
 
   });

@@ -15,12 +15,12 @@ import {
   transportsSchemas
 } from './schemas';
 
-const getTransportName = (name) =>{
+const getTransportName = (name) => {
   let value = validate(name, supportedTransportsSchema);
   return _.capitalize(value);
 };
 
-export default function (settings){
+export default function (settings) {
   settings = validate(settings, settingsSchema);
   debug('available transports: %o', _.keys(winston.transports));
   settings.transports = _.map(settings.transports, (conf, tName) => {
@@ -44,33 +44,47 @@ export default function (settings){
 
   let logger = new Logger(settings);
 
+  const addTransport = (name, transportConfig) => {
+    let transportName = getTransportName(name);
+    let config = validate(transportConfig, transportsSchemas[transportName]);
+    logger.add(winston.transports[transportName], config);
+  };
+  const removeTransport = (name) => {
+    let transportName = getTransportName(name);
+    let transport = winston.transports[transportName];
+    logger.remove(transport);
+  };
+
   const createLogObject = (moduleName)=>{
-    let namespace = `${moduleName}:`;
+    let bindKind = (kind) => logger.log.bind(logger, kind);
+    let log = (kind, ...args) => {
+      logger.log(kind, ...args);
+    };
+    if (moduleName) {
+      let prefix = `${moduleName}:`;
+      bindKind = (kind) => logger.log.bind(logger, kind, prefix);
+      log = (kind, ...args) => logger.log(kind, prefix, ...args);
+    }
+
     return {
-      silly: logger.log.bind(logger, 'silly', namespace),
-      debug: logger.log.bind(logger, 'debug', namespace),
-      verbose: logger.log.bind(logger, 'verbose', namespace),
-      log: logger.log.bind(logger),
-      info: logger.log.bind(logger, 'info', namespace),
-      warn: logger.log.bind(logger, 'warn', namespace),
-      error: logger.log.bind(logger, 'error', namespace),
-      addTransport: (name, transportConfig) =>{
-        let transportName = getTransportName(name);
-        let config = validate(transportConfig, transportsSchemas[transportName]);
-        logger.add(winston.transports[transportName], config);
-      },
-      removeTransport: (name) =>{
-        let transportName = getTransportName(name);
-        let transport = winston.transports[transportName];
-        logger.remove(transport);
-      },
+      silly: bindKind('silly'),
+      debug: bindKind('debug'),
+      verbose: bindKind('verbose'),
+      info: bindKind('info'),
+      warn: bindKind('warn'),
+      error: bindKind('error'),
+      log: log,
+
+      addTransport: addTransport,
+      removeTransport: removeTransport,
+
       on: logger.on.bind(logger),
       once: logger.once.bind(logger)
     };
   };
 
-  const logFactory = (moduleName) =>{
-    moduleName = moduleName || path.basename(module.parent.id, '.js');
+  const logFactory = (moduleName) => { // eslint-disable-line
+    moduleName = (moduleName || moduleName === false || !module || !module.parent || !module.parent.id) ? moduleName : path.basename(module.parent.id, '.js');
     return createLogObject(moduleName);
   };
 
@@ -90,12 +104,9 @@ export default function (settings){
     });
   };
 
-  //the log factory doesn't have to be executed if you just want to log using the parent module's name.
+  //the log factory doesn't have to be executed if you just want to log with no module name.
   //e.g. logFactory.info('hi');
-  Object.assign(logFactory, createLogObject(path.basename(module.parent.id, '.js')));
+  Object.assign(logFactory, createLogObject(false));
 
   return logFactory;
-
-
-
 }
