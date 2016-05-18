@@ -12,7 +12,7 @@ import {
   validate,
   supportedTransportsSchema,
   settingsSchema,
-  transportsSchema
+  transportsSchemas
 } from './schemas';
 
 const getTransportName = (name) =>{
@@ -56,7 +56,7 @@ export default function (settings){
       error: logger.log.bind(logger, 'error', namespace),
       addTransport: (name, transportConfig) =>{
         let transportName = getTransportName(name);
-        let config = validate(transportConfig, transportsSchema[transportName]);
+        let config = validate(transportConfig, transportsSchemas[transportName]);
         logger.add(winston.transports[transportName], config);
       },
       removeTransport: (name) =>{

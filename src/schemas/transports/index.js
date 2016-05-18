@@ -8,12 +8,12 @@ export default {
   transportsArraySchema: joi.array()
     .items(consoleTransportSchema, fileTransportSchema, logstashTransportSchema)
     .default(transports).single(),
-  transportsSchemas: joi.object({
+  transportsSchemas: {
     file: fileTransportSchema,
     File: fileTransportSchema,
     console: consoleTransportSchema,
     Console: consoleTransportSchema,
     logstash: logstashTransportSchema,
     Logstash: logstashTransportSchema
-  })
+  }
 };

@@ -161,4 +161,16 @@ describe('loggins', () =>{
     });
 
   });
+
+  describe('addTransport', ()=> {
+    let loggins;
+    before(()=>{
+      loggins = Loggins(settings);
+    });
+
+    it('should allow removing and readding transport without errors', () => {
+      loggins.removeTransport('Console');
+      loggins.addTransport('Console', { level: 'silly' });
+    });
+  });
 });

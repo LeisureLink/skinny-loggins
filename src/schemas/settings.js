@@ -5,7 +5,7 @@ import levels from './logging-levels';
 
 export default joi.object({
   level: levels,
-  transports: transportsSchemas
+  transports: joi.object(transportsSchemas)
 }).default({
   level: 'info',
   transports: { Console }
