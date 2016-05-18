@@ -1,5 +1,6 @@
-import { expect } from 'chai';
+import defaults from '../../../src/defaults/console-transport';
 import schema from '../../../src/schemas/transports/console-transport';
+import { expect } from 'chai';
 import { validate } from '../../../src/schemas';
 
 describe('Console transport schema', () =>{
@@ -25,7 +26,7 @@ describe('Console transport schema', () =>{
     let obj = validate(model, schema);
 
     expect(obj).to.eql({
-      colorize: true,
+      colorize: defaults.colorize,
       humanReadableUnhandledException: true,
       json: false,
       level: 'info',
